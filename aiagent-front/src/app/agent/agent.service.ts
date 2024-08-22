@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 @Injectable({
 	providedIn: 'root'
 })
-export class HomeService {
+export class AgentService {
 
 	headers: any;
 	option: any;
@@ -16,20 +16,25 @@ export class HomeService {
 		this.option = this.headers;*/
 	}
 
-	getAllAgents() {
-		let options = this.headers;
-		return this.http.get(this.apiurl + 'agent/public/agent/');
-	}
-
-	getUserDetails(){
-
+	getAgentQuestion(id:any) {
 		let options = {
 	        headers: new HttpHeaders({ 
 	        	'Accept': 'application/json' ,
 	        	'Authorization': 'Bearer '+localStorage.getItem('token')
 	        })
 	    };
+		return this.http.get(this.apiurl + 'agent/'+id+'/question/',options);
+	}
 
-		return this.http.get(this.apiurl + 'auth/user/', options);
+	getAgentResponse(id:any,questions:any){
+
+		let options = {
+	        headers: new HttpHeaders({ 
+	        	'Accept': 'application/json' ,
+	        	'Authorization': 'Bearer '+localStorage.getItem('token')
+	        }),
+	    };
+
+		return this.http.post(this.apiurl + 'agent/'+id+'/answer', questions, options);
 	}
 }
